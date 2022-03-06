@@ -11453,8 +11453,18 @@ var routes = [{
     requiresAuth: false
   }
 }, {
-  name: 'dashboard',
+  name: 'root',
   path: '/',
+  redirect: {
+    name: 'dashboard'
+  },
+  component: _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+  meta: {
+    requiresAuth: true
+  }
+}, {
+  name: 'dashboard',
+  path: '/dashboard',
   component: _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   meta: {
     requiresAuth: true

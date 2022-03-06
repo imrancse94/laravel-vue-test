@@ -18,8 +18,17 @@ export const routes = [
         }
     },
     {
-        name: 'dashboard',
+        name: 'root',
         path: '/',
+        redirect:{name:'dashboard'},
+        component: Dashboard,
+        meta: {
+            requiresAuth: true,
+        }
+    },
+    {
+        name: 'dashboard',
+        path: '/dashboard',
         component: Dashboard,
         meta: {
             requiresAuth: true,
