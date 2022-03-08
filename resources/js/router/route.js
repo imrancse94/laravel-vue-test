@@ -1,7 +1,6 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createWebHistory, createRouter } from "vue-router";
 import store from './../store/store';
-Vue.use(VueRouter);
+
 
 import Dashboard from './../components/Dashboard.vue';
 import Login from './../components/Login.vue';
@@ -36,15 +35,16 @@ export const routes = [
     },
     {
         name: '404',
-        path: '*',
+        path: '/:catchAll(.*)',
         component: NotFound
     }
 ];
 
-const router = new VueRouter({
-    mode: 'history',
-    routes: routes
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
 });
+
 
 // Auth
 function isLoggedIn() {

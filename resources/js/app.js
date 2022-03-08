@@ -5,10 +5,8 @@
  */
 
 require('./bootstrap');
-import Vue from 'vue';
+import { createApp } from 'vue'
 import App from './components/App.vue';
-import VueAxios from 'vue-axios';
-import axios from 'axios';
 import router from './router/route';
 import store from './store/store';
 import { getToken,removeToken } from './Helper'
@@ -35,15 +33,15 @@ import {API_BASE_URL} from "./config";
  const jwt_secret = "1U8dHpfmY1xuk3udc7mMbSk8YVQhMephmkoq7WGzCQJUcHSNGzFSoE3dtt4hXr5V";
  var token = getToken();
 
- Vue.use(VueAxios, axios);
 
  const main = () => {
-    new Vue({
-        el: '#app',
-        store: store,
-        router: router,
-        render: h => h(App),
-    });
+    // new Vue({
+    //     el: '#app',
+    //     store: store,
+    //     router: router,
+    //     render: h => h(App),
+    // });
+    createApp(App).use(store).use(router).mount('#app')
    
  }
 
