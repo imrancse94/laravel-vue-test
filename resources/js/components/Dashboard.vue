@@ -50,44 +50,53 @@
     </div>
 </template>
 <script>
-import { removeToken } from "./../Helper";
+import { ref,onMounted } from 'vue'
+import { useStore } from 'vuex'
+import {useRouter} from 'vue-router'
+
 export default {
-    data() {
-        return {
-            title: "",
-            subjectlist: {},
-            errors: {},
-        };
-    },
-    mounted() {
-        this.setTitle();
-        this.getSubjects();
-    },
-    methods: {
-        logout() {
-            this.$store.dispatch("auth/logout");
-            this.$router.push({ name: "login" });
-        },
+   
+	setup () {
+        const store = useStore()
+        const router = useRouter()
+        let title= ref("");
+        let subjectlist = ref({});
+        let errors = ref({});
 
-        setTitle() {
-            let user = this.$store.getters["auth/getUser"].user;
-            this.title = user.name;
-            if (this.title) {
-                this.title = `Welcome ${this.title}`;
+		function logout() {
+            store.dispatch("auth/logout");
+            router.push({ name: "login" });
+        }
+
+        function setTitle() {
+            let user = store.getters["auth/getUser"].user;
+            title.value = user.name;
+            if (title.value) {
+                title.value = `Welcome ${title.value}`;
             }
-            console.log("this.title", this.$store);
-        },
+        }
 
-       async getSubjects() {
-            let user = this.$store.getters["auth/getUser"].user;
-           let response = await this.$store.dispatch("subject/getSubjectById", {
+       async function  getSubjects() {
+           let user = store.getters["auth/getUser"].user;
+           let response = await store.dispatch("subject/getSubjectById", {
                 id: user.id,
             });
             if('data' in response){
-                this.subjectlist = response.data.data;
+                subjectlist.value = response.data.data;
             }
-           // console.log("response",  this.subjectlist);
-        },
-    },
-};
+            
+        }
+		onMounted(() => {
+            setTitle();
+            getSubjects();
+		})
+		
+		return {
+            title,
+            subjectlist,
+            errors,
+            logout
+        };
+	}
+}
 </script>

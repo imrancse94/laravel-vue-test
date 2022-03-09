@@ -5,7 +5,7 @@ import {SET_LOGOUT,SET_LOGIN} from './mutation_type';
 const login = ({ commit }, user) => {
     return auth.login(user).then(({ data }) => {
         var response = data;
-        console.log('response.access_token',response)
+        console.log('response.access_token',user)
         if ('data' in response) {
             response = response.data;
             setToken(response.access_token)

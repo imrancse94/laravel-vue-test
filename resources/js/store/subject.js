@@ -6,10 +6,7 @@ const addSubject = async ({commit},data) =>{
 }
 
 const getSubjectById = async ({commit},params) =>{
-
-     var subjects = await subject.getSubjectById(params);
-     console.log('subjects',subjects);
-     return subjects;
+    return await subject.getSubjectById(params);
 }
 
 export default {

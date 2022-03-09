@@ -71,37 +71,54 @@
 </template>
 
 <script>
+import { ref,computed } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
 export default {
-    data() {
-        return {
-            email: "",
-            password: "",
-            errors: {},
-            message: "",
-        };
+    props: {
+        email: String, 
+        password: String, 
     },
-    methods: {
-        async login() {
-            let email = this.email;
-            let password = this.password;
-            const response = await this.$store.dispatch("auth/login", {
+    setup(props, { emit }) {
+        const store = useStore();
+        const router = useRouter();
+        // let email = "";
+        // let password = "";
+         let errors = ref({});
+         let message = ref("");
+        
+        async function login() {
+            let email = props.email;
+            let password = props.password;
+            // console.log("user_email", user_email);
+            // console.log("user_password", user_pass);
+            
+            const response = await store.dispatch("auth/login", {
                 email,
                 password,
             });
+            //console.log("ddd", response);
             if (response.success) {
-                this.$router.push({ name: "dashboard" });
+                router.push({ name: "dashboard" });
             } else {
-                
-                if(response.statuscode == "E105"){
-                    this.message = response.message;
-                } 
+                if (response.statuscode == "E105") {
+                    message.value = response.message;
+                }
 
-                if('data' in response){
-                    this.errors = response.data;
+                if ("data" in response) {
+                    errors.value = response.data;
                 }
             }
-            console.log("ddd", response,this.errors);
-        },
-    },
+            
+        }
+
+        return {
+            login,
+            message,
+            errors
+        }
+    }
+    
 };
 </script>
