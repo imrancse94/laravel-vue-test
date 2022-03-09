@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { ref,computed } from "vue";
+import { ref} from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
